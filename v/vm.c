@@ -6,6 +6,18 @@
 
 #include "riscv_test.h"
 
+#ifndef __cache_clear
+void __cache_clear(int x,int y) {
+  asm volatile ("fence.i" ::: "memory");
+}
+#endif
+#ifndef bcmp
+int bcmp(const void *cs, const void *ct, size_t count)
+{
+  return memcmp(cs, ct, count);
+}
+#endif
+
 #if __riscv_xlen == 32
 # define SATP_MODE_CHOICE SATP_MODE_SV32
 #elif defined(Sv48)
